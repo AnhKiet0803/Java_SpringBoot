@@ -9,6 +9,7 @@ import com.example.T2507e.service.StudentService;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3000")
 //@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"})
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class StudentController {
     private StudentService studentService;
 
@@ -29,6 +30,15 @@ public class StudentController {
     public ResponseEntity<ResponseDTO<List<StudentRes>>> getAllStudent(){
         try{
             return ResponseHandler.success(studentService.getAllStudent(),"Thành công");
+        }catch (Exception e){
+            return ResponseHandler.error(StatusCode.BAD_REQUEST,e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ResponseDTO<List<StudentRes>>> getAllStudents(){
+        try {
+            return ResponseHandler.success(studentService.getAllStudent(),"Thành công!");
         }catch (Exception e){
             return ResponseHandler.error(StatusCode.BAD_REQUEST,e.getMessage());
         }
