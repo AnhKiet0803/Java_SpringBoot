@@ -25,15 +25,17 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+        httpSecurity
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authorizationManagerRequestMatcherRegistry ->
-                                authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers("/api/v1/auth/**").permitAll()
-                                        .anyRequest().authenticated()
+                        authorizationManagerRequestMatcherRegistry
+                                ->authorizationManagerRequestMatcherRegistry
+                                       .requestMatchers("/api/v1/auth/**").permitAll()
+                                       .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
-            // thêm cách xử lí token(jwt) để biết thông tin (provider)
+                // thêm cách xử lí token(jwt) để biết thông tin (provider)
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenicationFilter, UsernamePasswordAuthenticationFilter.class)
         ;
@@ -49,7 +51,6 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/v1/**", configuration);
         //source.registerCorsConfiguration("/api/v2/**", configuration);
-        //source.registerCorsConfiguration("/api/v3/**", configuration);
         return source;
     }
 }

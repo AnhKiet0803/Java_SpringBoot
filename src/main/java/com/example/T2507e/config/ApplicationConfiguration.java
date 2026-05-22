@@ -27,7 +27,7 @@ public class ApplicationConfiguration {
     public UserDetailsService userDetailsService(){
         return email->{
             User user = userRepository.findByEmail(email);
-            if(email == null)
+            if(user == null)
                 throw  new UsernameNotFoundException("Email or password is not correct");
             return user;
         };

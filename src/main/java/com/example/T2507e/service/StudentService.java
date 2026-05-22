@@ -20,10 +20,7 @@ public class StudentService {
     public List<StudentRes> getAllStudent(){
         //List<Student> rs = studentRepository.findAll();
         //List<StudentRes> data = new ArrayList<>();
-        //for(Student s: rs){
-        //    StudentRes sr = StudentRes.toJison(s);
-        //    data.add(sr);
-        //}
+        //for(Student s: rs){StudentRes sr = StudentRes.toJison(s);data.add(sr);}
         //return data;
 
         //return studentRepository.findAll().stream().map(s->StudentRes.toJison(s)).toList();

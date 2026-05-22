@@ -17,28 +17,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/student")
 @AllArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"})
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*") hoac ghan link truy cập thay *: http://localhost:3000","http://localhost:3001
 public class StudentController {
     private StudentService studentService;
 
     @GetMapping()
-    //public List<StudentRes> getAllStudent(){
-    //    return studentService.getAllStudent();
-    //}
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ResponseDTO<List<StudentRes>>> getAllStudent(){
         try{
             return ResponseHandler.success(studentService.getAllStudent(),"Thành công");
-        }catch (Exception e){
-            return ResponseHandler.error(StatusCode.BAD_REQUEST,e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ResponseDTO<List<StudentRes>>> getAllStudents(){
-        try {
-            return ResponseHandler.success(studentService.getAllStudent(),"Thành công!");
         }catch (Exception e){
             return ResponseHandler.error(StatusCode.BAD_REQUEST,e.getMessage());
         }
